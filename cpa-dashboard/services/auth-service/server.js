@@ -189,6 +189,9 @@ const initializeDatabase = async () => {
 
     await sequelize.authenticate();
     console.log("✅ Database connection established successfully!");
+
+    await sequelize.sync();
+    console.log("✅ Database synchronized successfully!");
     logger.info("Database connection established successfully for", { service: SERVICE_NAME });
     return true;
   } catch (error) {

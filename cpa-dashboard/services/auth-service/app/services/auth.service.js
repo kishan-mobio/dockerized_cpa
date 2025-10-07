@@ -347,16 +347,16 @@ export const loginService = async (loginData) => {
       roles: user.roles || [],
       tenant_id: user.tenant_id,
     });
-    console.log("after token generation");
+    console.log(user);
     // Update last login
     await authRepository.updateLastLogin(user.id);
 
-    logger.info(LOGIN_SUCCESS, {
+    logger.info(AUTH_MESSAGES.LOGIN_SUCCESS, {
       userId: user.id,
       email: user.email,
     });
-
-    const { password: _, ...userWithoutPassword } = user.toJSON();
+    console.log("after token generation 34");
+    // const { password: _, ...userWithoutPassword } = user.toJSON();
 
     return createServiceResponse(
       true,
@@ -364,12 +364,8 @@ export const loginService = async (loginData) => {
       AUTH_MESSAGES.LOGIN_SUCCESS,
       {
         user: {
-          ...userWithoutPassword,
-          role: {
-            id: user.role?.id,
-            name: user.role?.name,
-            description: user.role?.description,
-          },
+         name: user.full_name,
+         roles: user.roles
         },
         tokens: {
           access_token: accessToken,

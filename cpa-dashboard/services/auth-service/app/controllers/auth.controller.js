@@ -1,5 +1,5 @@
-import { createLogger } from '../utils/logger.utils.js';
-import { 
+import { createLogger } from "../utils/logger.utils.js";
+import {
   inviteUserService,
   registerWithInviteService,
   verifyEmailService,
@@ -12,15 +12,22 @@ import {
   resetPasswordService,
   getUserProfileService,
   changePasswordService,
-  updateUserProfileService
-} from '../services/auth.service.js';
-import { LOGGER_NAMES, LOGGER_MESSAGES } from '../utils/constants/log.constants.js';
-import { HARDCODED_STRINGS } from '../utils/constants/strings.constants.js';
-import { errorResponse, successResponse } from '../utils/response.util.js';
-import { errorHandler } from '../utils/error.utils.js';
-import { validationResult } from 'express-validator';
-import { setAccessTokenCookie, setRefreshTokenCookie, clearCookie } from '../utils/cookie.utils.js';
-import * as status from '../utils/status_code.utils.js';
+  updateUserProfileService,
+} from "../services/auth.service.js";
+import {
+  LOGGER_NAMES,
+  LOGGER_MESSAGES,
+} from "../utils/constants/log.constants.js";
+import { HARDCODED_STRINGS } from "../utils/constants/strings.constants.js";
+import { errorResponse, successResponse } from "../utils/response.util.js";
+import { errorHandler } from "../utils/error.utils.js";
+import { validationResult } from "express-validator";
+import {
+  setAccessTokenCookie,
+  setRefreshTokenCookie,
+  clearCookie,
+} from "../utils/cookie.utils.js";
+import * as status from "../utils/status_code.utils.js";
 
 const logger = createLogger(LOGGER_NAMES.AUTH_CONTROLLER);
 
@@ -32,9 +39,11 @@ const logger = createLogger(LOGGER_NAMES.AUTH_CONTROLLER);
 const checkValidation = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(status.STATUS_CODE_BAD_REQUEST).json(
-      errorResponse(VALIDATION_MESSAGES.VALIDATION_FAILED, errors.array())
-    );
+    return res
+      .status(status.STATUS_CODE_BAD_REQUEST)
+      .json(
+        errorResponse(VALIDATION_MESSAGES.VALIDATION_FAILED, errors.array())
+      );
   }
   return null;
 };
@@ -44,7 +53,7 @@ const checkValidation = (req, res) => {
  */
 const handleServiceResponse = (res, serviceResult) => {
   const { success, statusCode, message, data, error } = serviceResult;
-  
+
   if (success) {
     return res.status(statusCode).json(successResponse(message, data));
   } else {
@@ -52,20 +61,13 @@ const handleServiceResponse = (res, serviceResult) => {
   }
 };
 
-
 // AUTHENTICATION ENDPOINTS
-
-
-
 
 /**
  * Invite User (Admin Only)
  * @route POST /auth/invite
  * @access Private (Admin only)
  */
-
-
-
 
 export const inviteUser = async (req, res) => {
   try {
@@ -78,33 +80,30 @@ export const inviteUser = async (req, res) => {
       organization_id: req.body.organization_id,
       tenant_id: req.body.tenant_id,
       invitedBy: req.user.id,
-      inviterName: req.user.name
+      inviterName: req.user.name,
     };
 
     const result = await inviteUserService(inviteData);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} ${LOGGER_MESSAGES.ERROR.CONTROLLER.INVITE_USER_ERROR}`, { 
-      error: error.message,
-      stack: error.stack,
-      userId: req.user?.id,
-      email: req.body?.email
-    });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} ${LOGGER_MESSAGES.ERROR.CONTROLLER.INVITE_USER_ERROR}`,
+      {
+        error: error.message,
+        stack: error.stack,
+        userId: req.user?.id,
+        email: req.body?.email,
+      }
+    );
     return errorHandler(error, req, res);
   }
 };
-
-
 
 /**
  * Register with Invite Token
  * @route POST /auth/register
  * @access Public (with valid invite token)
  */
-
-
-
 
 export const register = async (req, res) => {
   try {
@@ -115,32 +114,31 @@ export const register = async (req, res) => {
       inviteToken: req.body.inviteToken,
       name: req.body.name,
       password: req.body.password,
-      phone_number: req.body.phone_number
+      phone_number: req.body.phone_number,
     };
 
     const result = await registerWithInviteService(registrationData);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} ${LOGGER_MESSAGES.ERROR.CONTROLLER.REGISTER_ERROR}`, { 
-      error: error.message,
-      stack: error.stack,
-      inviteToken: req.body?.inviteToken?.substring(0, 10) + HARDCODED_STRINGS.STRING_OPS_EXTENDED.ELLIPSIS
-    });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} ${LOGGER_MESSAGES.ERROR.CONTROLLER.REGISTER_ERROR}`,
+      {
+        error: error.message,
+        stack: error.stack,
+        inviteToken:
+          req.body?.inviteToken?.substring(0, 10) +
+          HARDCODED_STRINGS.STRING_OPS_EXTENDED.ELLIPSIS,
+      }
+    );
     return errorHandler(error, req, res);
   }
 };
-
-
 
 /**
  * Verify Email Address
  * @route POST /auth/verify-email
  * @access Public (with valid email verification token)
  */
-
-
-
 
 export const verifyEmail = async (req, res) => {
   try {
@@ -150,18 +148,20 @@ export const verifyEmail = async (req, res) => {
     const { emailVerificationToken } = req.body;
     const result = await verifyEmailService(emailVerificationToken);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} verifyEmail in auth.controller.js:`, { 
-      error: error.message,
-      stack: error.stack,
-      token: req.body?.emailVerificationToken?.substring(0, 10) + HARDCODED_STRINGS.STRING_OPS_EXTENDED.ELLIPSIS
-    });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} verifyEmail in auth.controller.js:`,
+      {
+        error: error.message,
+        stack: error.stack,
+        token:
+          req.body?.emailVerificationToken?.substring(0, 10) +
+          HARDCODED_STRINGS.STRING_OPS_EXTENDED.ELLIPSIS,
+      }
+    );
     return errorHandler(error, req, res);
   }
 };
-
-
 
 /**
  * User Login (Enhanced with MFA)
@@ -169,24 +169,27 @@ export const verifyEmail = async (req, res) => {
  * @access Public
  */
 
-
-
-
-import { getUserByEmail } from '../services/user.service.js';
+import { getUserByEmail } from "../services/user.service.js";
 
 export const login = async (req, res) => {
   try {
+    console.log("in");
     const validationError = checkValidation(req, res);
     if (validationError) return validationError;
 
     // Get user details from user service by email
     const userEmail = req.body.email;
     const userDetails = await getUserByEmail(userEmail);
-    
+
     // If user details are available, log them
     if (userDetails) {
-      logger.info(`User found in user service: ${userDetails.full_name || userDetails.email}`);
+      logger.info(
+        `User found in user service: ${
+          userDetails.full_name || userDetails.email
+        }`
+      );
     } else {
+      console.log("user not found");
       logger.warn(`User not found in user service for email: ${userEmail}`);
     }
 
@@ -197,27 +200,30 @@ export const login = async (req, res) => {
       userAgent: req.headers[HARDCODED_STRINGS.USER_AGENT],
       ipAddress: req.ip,
       // Add user details from user service if available
-      userDetails: userDetails || null
+      userDetails: userDetails || null,
     };
 
     const result = await loginService(loginData);
-    
+    // console.log(result);
+
     // Handle cookies for successful login
-    if (result.success && result.data?.tokens) {
-      setAccessTokenCookie(res, result.data.tokens.access_token);
-      setRefreshTokenCookie(res, result.data.tokens.refresh_token);
-    }
+    // if (result.success && result.data?.tokens) {
+    //   setAccessTokenCookie(res, result.data.tokens.access_token);
+    //   setRefreshTokenCookie(res, result.data.tokens.refresh_token);
+    // }
 
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} login in auth.controller.js:`, { 
-      error: error.message,
-      stack: error.stack,
-      email: req.body?.email,
-      userAgent: req.headers[HARDCODED_STRINGS.USER_AGENT]
-    });
-    return errorHandler(error, req, res);
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} login in auth.controller.js:`,
+      {
+        error: error.message,
+        stack: error.stack,
+        email: req.body?.email,
+        userAgent: req.headers[HARDCODED_STRINGS.USER_AGENT],
+      }
+    );
+    return error;
   }
 };
 
@@ -238,13 +244,15 @@ export const logout = async (req, res) => {
     }
 
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} logout in auth.controller.js:`, { 
-      error: error.message,
-      stack: error.stack,
-      userId: req.user?.id
-    });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} logout in auth.controller.js:`,
+      {
+        error: error.message,
+        stack: error.stack,
+        userId: req.user?.id,
+      }
+    );
     return errorHandler(error, req, res);
   }
 };
@@ -261,12 +269,14 @@ export const setupMFA = async (req, res) => {
 
     const userId = req.user.id;
     const userEmail = req.user.email;
-    
+
     const result = await setupMFAService(userId, userEmail);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} setupMFA:`, { error: error.message });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} setupMFA:`,
+      { error: error.message }
+    );
     return errorHandler(error, req, res);
   }
 };
@@ -284,14 +294,16 @@ export const verifyMFA = async (req, res) => {
     const verifyData = {
       email: req.body.email,
       mfaCode: req.body.mfaCode,
-      tempToken: req.body.tempToken
+      tempToken: req.body.tempToken,
     };
 
     const result = await verifyMFAService(verifyData);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} verifyMFA:`, { error: error.message });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} verifyMFA:`,
+      { error: error.message }
+    );
     return errorHandler(error, req, res);
   }
 };
@@ -309,9 +321,11 @@ export const forgotPassword = async (req, res) => {
     const { email, url } = req.body;
     const result = await forgotPasswordService(email, url);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} forgotPassword:`, { error: error.message });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} forgotPassword:`,
+      { error: error.message }
+    );
     return errorHandler(error, req, res);
   }
 };
@@ -329,21 +343,21 @@ export const resetPassword = async (req, res) => {
     const resetData = {
       token: req.body.token,
       newPassword: req.body.newPassword,
-      confirmPassword: req.body.confirmPassword
+      confirmPassword: req.body.confirmPassword,
     };
 
     const result = await resetPasswordService(resetData);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} resetPassword:`, { error: error.message });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} resetPassword:`,
+      { error: error.message }
+    );
     return errorHandler(error, req, res);
   }
 };
 
-
 // LEGACY / PROFILE ENDPOINTS
-
 
 /**
  * Legacy Sign Up (Direct Registration)
@@ -360,14 +374,16 @@ export const signUp = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       phone_number: req.body.phone_number,
-      role_id: req.body.role_id
+      role_id: req.body.role_id,
     };
 
     const result = await signUpService(signUpData);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} signUp:`, { error: error.message });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} signUp:`,
+      { error: error.message }
+    );
     return errorHandler(error, req, res);
   }
 };
@@ -382,9 +398,11 @@ export const getProfile = async (req, res) => {
     const userId = req.user.id;
     const result = await getUserProfileService(userId);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} getProfile:`, { error: error.message });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} getProfile:`,
+      { error: error.message }
+    );
     return errorHandler(error, req, res);
   }
 };
@@ -402,14 +420,16 @@ export const changePassword = async (req, res) => {
     const passwordData = {
       userId: req.user.id,
       currentPassword: req.body.currentPassword,
-      newPassword: req.body.newPassword
+      newPassword: req.body.newPassword,
     };
 
     const result = await changePasswordService(passwordData);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} changePassword:`, { error: error.message });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} changePassword:`,
+      { error: error.message }
+    );
     return errorHandler(error, req, res);
   }
 };
@@ -427,14 +447,16 @@ export const updateProfile = async (req, res) => {
     const updateData = {
       userId: req.params.id,
       updates: req.body,
-      requesterId: req.user.id // For authorization check
+      requesterId: req.user.id, // For authorization check
     };
 
     const result = await updateUserProfileService(updateData);
     return handleServiceResponse(res, result);
-
   } catch (error) {
-    logger.error(`${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} updateProfile:`, { error: error.message });
+    logger.error(
+      `${HARDCODED_STRINGS.ERROR_MESSAGES.CONTROLLER_ERROR} updateProfile:`,
+      { error: error.message }
+    );
     return errorHandler(error, req, res);
   }
 };

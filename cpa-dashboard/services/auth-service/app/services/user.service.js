@@ -32,9 +32,14 @@ export const getUserById = async (userId) => {
  */
 export const getUserByEmail = async (email) => {
   try {
-    const response = await axios.get(`${USER_SERVICE_BASE_URL}/email/${email}`);
+    console.log("ind service")
+    console.log(`${USER_SERVICE_BASE_URL}/email/${email}`)
+    const response = await axios.get("http://localhost:3003/api/users/email/paulwhite@example.com");
+    console.log("response:",response);
+    
     return response.data.data;
   } catch (error) {
+    console.log(error)
     logger.error('Error fetching user by email from user service:', {
       error: error.message,
       email
