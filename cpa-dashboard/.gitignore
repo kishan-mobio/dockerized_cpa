@@ -58,12 +58,6 @@ Desktop.ini
 
 # Docker
 .dockerignore
-docker-compose.override.yml
-docker-compose.*.local.yml
-**/docker-compose.override.yml
-**/docker-compose.*.local.yml
-**/Dockerfile.*.local
-docker-compose.yml
 
 # Kubernetes
 .kube/

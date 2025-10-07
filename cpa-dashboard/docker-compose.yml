@@ -1,0 +1,165 @@
+services:
+   gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: cpa-gateway
+    ports:
+      - "${GATEWAY_PORT:-8080}:80" # Public entry point for gateway
+    depends_on:
+      - user-service
+      - auth-service
+      - frontend
+    networks:
+      - cpa-network
+   user-service:
+    build:
+      context: ./services/user-service
+      dockerfile: Dockerfile
+    container_name: cpa-dashboard-user-service
+    ports:
+      - "${USER_SERVICE_PORT:-3003}:3003"
+    volumes:
+      # Mount source code directories for hot reload
+      - ./services/user-service/app:/app/app
+      - ./services/user-service/config:/app/config
+      - ./services/user-service/migrations:/app/migrations
+      - ./services/user-service/index.js:/app/index.js
+      - ./services/user-service/.env:/app/.env
+      # Preserve container's node_modules (installed dependencies)
+      - user-service-node-modules:/app/node_modules
+      - ./shared:/shared
+
+    environment:
+      # Override specific environment variables for Docker
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      # Keep the PORT from .env file by not overriding it here
+   tenant-service:
+    build:
+      context: ./services/tenant-service
+      dockerfile: Dockerfile
+    container_name: cpa-dashboard-tenant-service
+    ports:
+      - "${TENANT_SERVICE_PORT:-3002}:3002"
+    volumes:
+      - ./services/tenant-service/app:/app/app
+      - ./services/tenant-service/config:/app/config
+      - ./services/tenant-service/migrations:/app/migrations
+      - ./services/tenant-service/index.js:/app/index.js
+      - ./services/tenant-service/.env:/app/.env
+      - tenant-service-node-modules:/app/node_modules
+      - ./shared:/shared
+
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+
+   sikka-services:
+    build:
+      context: ./services/sikka-services
+      dockerfile: Dockerfile
+    container_name: cpa-dashboard-sikka-services
+    ports:
+      - "${SIKKA_SERVICE_PORT:-3004}:3004"
+    volumes:
+      - ./services/sikka-services/app:/app/app
+      - ./services/sikka-services/config:/app/config
+      - ./services/sikka-services/migrations:/app/migrations
+      - ./services/sikka-services/index.js:/app/index.js
+      - ./services/sikka-services/.env:/app/.env
+      - sikka-services-node-modules:/app/node_modules
+      - ./shared:/shared
+
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+   frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NODE_OPTIONS=${NODE_OPTIONS}
+    container_name: cpa-dashboard-frontend
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - frontend-node-modules:/app/node_modules
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      NODE_OPTIONS: ${NODE_OPTIONS}
+    mem_limit: ${FRONTEND_MEM_LIMIT}
+    depends_on:
+      - user-service
+
+   quickbook-service:
+    build:
+      context: ./services/quickbook-service
+      dockerfile: Dockerfile
+    container_name: cpa-dashboard-quickbook-service
+    ports:
+      - "${QUICKBOOK_SERVICE_PORT:-3005}:3005"
+    volumes:
+      - ./services/quickbook-service/app:/app/app
+      - ./services/quickbook-service/config:/app/config
+      - ./services/quickbook-service/migrations:/app/migrations
+      - ./services/quickbook-service/server.js:/app/index.js
+      - ./services/quickbook-service/.env:/app/.env
+      - quickbook-service-node-modules:/app/node_modules
+      - ./shared:/shared
+
+    environment:
+      USE_LOCAL_DB: ${USE_LOCAL_DB}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      LOCAL_DB_HOST: ${LOCAL_DB_HOST}
+      LOCAL_DB_PORT: ${LOCAL_DB_PORT}
+      LOCAL_DB_USER: ${LOCAL_DB_USER}
+      LOCAL_DB_PASS: ${LOCAL_DB_PASS}
+      LOCAL_DB_NAME: ${LOCAL_DB_NAME}
+
+   auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    container_name: cpa-dashboard-auth-service
+    ports:
+      - "${AUTH_SERVICE_PORT:-3006}:3006"
+    volumes:
+      - ./services/auth-service/app:/app/app
+      - ./services/auth-service/config:/app/config
+      - ./services/auth-service/migrations:/app/migrations
+      - ./services/auth-service/server.js:/app/index.js
+      - ./services/auth-service/.env:/app/.env
+      - auth-service-node-modules:/app/node_modules
+      - ./shared:/shared
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+
+volumes:
+  user-service-node-modules:
+  tenant-service-node-modules:
+  sikka-services-node-modules:
+  quickbook-service-node-modules:
+  auth-service-node-modules:
+  frontend-node-modules:
+
+ 
