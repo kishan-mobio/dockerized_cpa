@@ -30,35 +30,6 @@ export const authRepository = {
     delete mappedData.name;
     
     return await create(AppUser, mappedData);
-
-
-
-
-    try {
-      // Map old field names to new schema
-      const mappedData = {
-        ...userData,
-        password_hash: userData.password, // Map password to password_hash
-        full_name: userData.name, // Map name to full_name
-      };
-      delete mappedData.password;
-      delete mappedData.name;
-      
-      return await create(AppUser, mappedData);
-    } catch (error) {
-      logger.error(LOGGER_MESSAGES.ERROR.REPOSITORY.CREATE_USER_ERROR, {
-        error: error.message,
-        stack: error.stack,
-        userData: { email: userData?.email, name: userData?.name }
-      });
-      throw error;
-    }
-
-
-
-
-
-
   },
 
   /**
@@ -78,32 +49,6 @@ export const authRepository = {
       },
       include
     });
-
-
-
-
-    try {
-      return await AppUser.findOne({
-        where: { 
-          email,
-          is_active: true // Use is_active instead of is_deleted
-        },
-        include
-      });
-    } catch (error) {
-      logger.error(LOGGER_MESSAGES.ERROR.REPOSITORY.FIND_USER_BY_EMAIL_ERROR, {
-        error: error.message,
-        stack: error.stack,
-        email
-      });
-      throw error;
-    }
-
-
-
-
-
-
   },
 
   /**
@@ -123,32 +68,6 @@ export const authRepository = {
       },
       include
     });
-
-
-
-
-    try {
-      return await AppUser.findOne({
-        where: { 
-          id: userId,
-          is_active: true // Use is_active instead of is_deleted
-        },
-        include
-      });
-    } catch (error) {
-      logger.error(LOGGER_MESSAGES.ERROR.REPOSITORY.FIND_USER_BY_ID_ERROR, {
-        error: error.message,
-        stack: error.stack,
-        userId
-      });
-      throw error;
-    }
-
-
-
-
-
-
   },
 
   /**

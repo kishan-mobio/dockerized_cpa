@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import { createLogger } from '../utils/logger.utils.js';
 import { LOGGER_NAMES } from '../utils/constants/log.constants.js';
-import { TOKEN_LOG_ERRORS } from '../utils/constants/auth.constants.js';
+import { TOKEN_LOG_ACTIONS, TOKEN_LOG_ERRORS } from '../utils/constants/auth.constants.js';
 import { tokenRepository } from '../repository/token.repository.js';
 import { generateAccessToken, generateRefreshToken, generateResetToken } from '../utils/jwt.utils.js';
 import { Op } from 'sequelize';

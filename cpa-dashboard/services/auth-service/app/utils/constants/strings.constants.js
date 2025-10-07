@@ -26,6 +26,11 @@ export const HARDCODED_STRINGS = {
     DELETE: 'DELETE',
     PATCH: 'PATCH',
   },
+
+  VALIDATION_LOG_MESSAGES: {
+    EXPRESS_VALIDATION_ERROR: 'Express validation error:',
+    VALIDATION_PROCESSING_ERROR: 'Validation processing error:',
+  },
   
   // Request Body Fields
   REQUEST_FIELDS: {

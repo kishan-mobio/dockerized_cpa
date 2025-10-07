@@ -186,3 +186,38 @@ export const deleteUser = async (req, res) => {
     return res.status(errorStatus).json(errorResponse(response));
   }
 };
+
+/**
+ * Get user by email
+ * @route GET /api/users/email/:email
+ * @access Admin only
+ */
+export const getUserByEmail = async (req, res) => {
+  try {
+    // Extract email from request parameters
+    const { email } = req.params;
+    logger.info(LOG_ACTIONS.FETCHING_BY_EMAIL);
+
+    // Call service method
+    const user = await userService.getUserByEmail(email);
+
+    if (!user) {
+      const { status: errorStatus, response } =
+        errorHandler.handleNotFoundError(MODULES.USER, MODULES.USER);
+      throwCustomErrorWithStatus(response, errorStatus);
+    }
+
+    // Return HTTP response
+    return res
+      .status(STATUS_CODE_SUCCESS)
+      .json(successResponse(USER_MESSAGES.FETCHED_SUCCESSFULLY, user));
+  } catch (error) {
+    // Handle HTTP error response
+    const { status: errorStatus, response } = errorHandler.handleError(
+      error,
+      MODULES.USER,
+      OPERATIONS.GET_BY_EMAIL
+    );
+    return res.status(errorStatus).json(errorResponse(response));
+  }
+};

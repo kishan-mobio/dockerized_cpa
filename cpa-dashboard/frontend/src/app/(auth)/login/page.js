@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { login } from "@/redux/Thunks/Authentication";
 import { clearError } from "@/redux/Slice/Authentication";
-import { login } from "@/redux/thunks/auth/auth";
-import { clearError } from "@/redux/slices/auth/authSlice";
 
 import { useToast } from "@/components/ui/toast";
 import { AUTH_CONSTANTS } from "@/utils/constants/auth";
@@ -15,8 +13,8 @@ import "../auth.css";
 
 import { COMMON_CONSTANTS as CONST, ROLE_CONSTANTS } from "@/utils/constants";
 import { ROUTES } from "@/utils/constants/routes";
-import { COMMON_CONSTANTS as CONST, ROLE_CONSTANTS } from "@/utils/const";
-import { ROUTES } from "@/utils/const/routes";
+import Loader from "@/components/ui/loading";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -33,8 +31,6 @@ export default function LoginPage() {
   const { loading } = useSelector((state) => state.auth);
 
   const handleLogin = async () => {
-    console.log("Login credentials:", formData);
-
     try {
       const user = await dispatch(
         login({
