@@ -18,6 +18,9 @@ router.get("/", userController.getAllUsers);
 // Get user by ID
 router.get("/:id", userController.getUserById);
 
+// Get user by email
+router.get("/email/:email", userController.getUserByEmail);
+
 // Update user by ID
 router.put(
   "/:id",

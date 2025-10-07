@@ -172,17 +172,32 @@ export const verifyEmail = async (req, res) => {
 
 
 
+import { getUserByEmail } from '../services/user.service.js';
+
 export const login = async (req, res) => {
   try {
     const validationError = checkValidation(req, res);
     if (validationError) return validationError;
+
+    // Get user details from user service by email
+    const userEmail = req.body.email;
+    const userDetails = await getUserByEmail(userEmail);
+    
+    // If user details are available, log them
+    if (userDetails) {
+      logger.info(`User found in user service: ${userDetails.full_name || userDetails.email}`);
+    } else {
+      logger.warn(`User not found in user service for email: ${userEmail}`);
+    }
 
     const loginData = {
       email: req.body.email,
       password: req.body.password,
       mfaCode: req.body.mfaCode,
       userAgent: req.headers[HARDCODED_STRINGS.USER_AGENT],
-      ipAddress: req.ip
+      ipAddress: req.ip,
+      // Add user details from user service if available
+      userDetails: userDetails || null
     };
 
     const result = await loginService(loginData);

@@ -11,7 +11,7 @@ const AppTokenModel = (sequelize) => {
       },
       tenant_id: {
         type: DataTypes.UUID,
-        allowNull: false,
+        // allowNull: false,
       },
       user_id: {
         type: DataTypes.UUID,
@@ -20,11 +20,11 @@ const AppTokenModel = (sequelize) => {
       token_type: {
         type: DataTypes.ENUM,
         values: ['access', 'refresh', 'reset', 'invite', 'email_verification', 'mfa_temp'],
-        allowNull: false,
+        // allowNull: false,
       },
       token_hash: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        // allowNull: false,
       },
       // JWT tokens
       access_token: {

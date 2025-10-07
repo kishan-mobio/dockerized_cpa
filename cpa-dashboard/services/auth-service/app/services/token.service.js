@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import { createLogger } from '../utils/logger.utils.js';
 import { LOGGER_NAMES } from '../utils/constants/log.constants.js';
-import { TOKEN_LOG_ERRORS } from '../utils/constants/auth.constants.js';
+import { TOKEN_LOG_ACTIONS, TOKEN_LOG_ERRORS } from '../utils/constants/auth.constants.js';
 import { tokenRepository } from '../repository/token.repository.js';
 import { generateAccessToken, generateRefreshToken, generateResetToken } from '../utils/jwt.utils.js';
 import { Op } from 'sequelize';
@@ -46,7 +46,9 @@ const parseTimeToMs = (timeString) => {
  */
 export const createAccessToken = async (userData, expiresIn = '15m') => {
   try {
+    console.log('userData', userData);
     const token = generateAccessToken(userData, expiresIn);
+    console.log('token', token);
     logger.info(TOKEN_LOG_ACTIONS.ACCESS_TOKEN_CREATED, { 
       userId: userData.userId 
     });
@@ -64,9 +66,12 @@ export const createAccessToken = async (userData, expiresIn = '15m') => {
  */
 export const createRefreshToken = async (userData, expiresIn = '7d') => {
   try {
+    console.log('userData', userData);
     const token = generateRefreshToken(userData, expiresIn);
+    console.log('token', token);
     const expirationMs = parseTimeToMs(expiresIn);
     const expiresAt = new Date(Date.now() + expirationMs);
+    console.log('expiresAt', expiresAt);
 
     // Store refresh token in database
     await tokenRepository.create({

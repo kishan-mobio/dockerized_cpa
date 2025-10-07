@@ -11,6 +11,18 @@ export const LOG_LEVELS = {
   SILLY: 'silly',
 };
 
+export const AUTH_LOG_ACTIONS = {
+  LOGIN_ATTEMPT: 'loginAttempt',
+  LOGIN_SUCCESS: 'loginSuccess',
+  LOGIN_FAILED: 'loginFailed',
+  LOGOUT: 'logout',
+  TOKEN_CREATED: 'tokenCreated',
+  TOKEN_REVOKED: 'tokenRevoked',
+  EMAIL_VERIFIED: 'emailVerified',
+  MFA_SETUP: 'mfaSetup',
+  MFA_VERIFIED: 'mfaVerified',
+};
+
 // Log Formats
 export const LOG_FORMATS = {
   COMBINED: 'combined',
@@ -32,6 +44,7 @@ export const LOGGER_NAMES = {
   TOKEN_SERVICE: 'TokenService',
   EMAIL_SERVICE: 'EmailService',
   MFA_SERVICE: 'MFAService',
+  USER_SERVICE: 'UserService',
   
   // Middleware
   AUTH_MIDDLEWARE: 'AuthMiddleware',
