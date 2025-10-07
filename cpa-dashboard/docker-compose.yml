@@ -1,5 +1,5 @@
 services:
-   gateway:
+  gateway:
     build:
       context: ./gateway
       dockerfile: Dockerfile
@@ -11,7 +11,7 @@ services:
       - auth-service
       - frontend
 
-   user-service:
+  user-service:
     build:
       context: ./services/user-service
       dockerfile: Dockerfile
@@ -38,13 +38,15 @@ services:
       DB_NAME: ${DB_NAME}
       # Keep the PORT from .env file by not overriding it here
 
-   auth-service:
+  auth-service:
     build:
       context: ./services/auth-service
       dockerfile: Dockerfile
     container_name: cpa-dashboard-auth-service
     ports:
       - "3001:3001"
+    depends_on:
+      - user-service
     volumes:
       - ./services/auth-service/app:/app/app
       - ./services/auth-service/config:/app/config
@@ -59,9 +61,9 @@ services:
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
+      USER_SERVICE_URL: http://user-service:3003/api/users
 
-
-   tenant-service:
+  tenant-service:
     build:
       context: ./services/tenant-service
       dockerfile: Dockerfile
@@ -84,7 +86,7 @@ services:
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
 
-   sikka-services:
+  sikka-services:
     build:
       context: ./services/sikka-services
       dockerfile: Dockerfile
@@ -106,7 +108,7 @@ services:
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       DB_NAME: ${DB_NAME}
-   frontend:
+  frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -122,11 +124,12 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV}
       NODE_OPTIONS: ${NODE_OPTIONS}
+      NEXT_PUBLIC_API_URL: http://localhost:3001/api/v1
     mem_limit: ${FRONTEND_MEM_LIMIT}
     depends_on:
       - user-service
 
-   quickbook-service:
+  quickbook-service:
     build:
       context: ./services/quickbook-service
       dockerfile: Dockerfile
@@ -155,7 +158,6 @@ services:
       LOCAL_DB_PASS: ${LOCAL_DB_PASS}
       LOCAL_DB_NAME: ${LOCAL_DB_NAME}
 
-   
 volumes:
   user-service-node-modules:
   tenant-service-node-modules:
@@ -163,5 +165,3 @@ volumes:
   quickbook-service-node-modules:
   auth-service-node-modules:
   frontend-node-modules:
-
- 

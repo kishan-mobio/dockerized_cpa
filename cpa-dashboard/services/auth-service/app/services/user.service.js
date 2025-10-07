@@ -1,13 +1,15 @@
-import axios from 'axios';
-import { createLogger } from '../utils/logger.utils.js';
-import { LOGGER_NAMES } from '../utils/constants/log.constants.js';
+import axios from "axios";
+import { createLogger } from "../utils/logger.utils.js";
+import { LOGGER_NAMES } from "../utils/constants/log.constants.js";
 
 const logger = createLogger(LOGGER_NAMES.USER_SERVICE);
 
 // User service base URL from config
-const USER_SERVICE_BASE_URL =  'http://localhost:3003/api/users';
+// Use Docker service name for container-to-container communication
+const USER_SERVICE_BASE_URL =
+  process.env.USER_SERVICE_URL || "http://user-service:3003/api/users";
 
-/** 
+/**
  * Get user by ID from user service
  * @param {string} userId - User ID
  * @returns {Promise<Object>} User data or null
@@ -17,9 +19,9 @@ export const getUserById = async (userId) => {
     const response = await axios.get(`${USER_SERVICE_BASE_URL}/${userId}`);
     return response.data.data;
   } catch (error) {
-    logger.error('Error fetching user by ID from user service:', {
+    logger.error("Error fetching user by ID from user service:", {
       error: error.message,
-      userId
+      userId,
     });
     return null;
   }
@@ -32,17 +34,17 @@ export const getUserById = async (userId) => {
  */
 export const getUserByEmail = async (email) => {
   try {
-    console.log("ind service")
-    console.log(`${USER_SERVICE_BASE_URL}/email/${email}`)
-    const response = await axios.get("http://localhost:3003/api/users/email/paulwhite@example.com");
-    console.log("response:",response);
-    
+    console.log("ind service");
+    console.log(`${USER_SERVICE_BASE_URL}/email/${email}`);
+    const response = await axios.get(`${USER_SERVICE_BASE_URL}/email/${email}`);
+    console.log("response:", response);
+
     return response.data.data;
   } catch (error) {
-    console.log(error)
-    logger.error('Error fetching user by email from user service:', {
+    console.log(error);
+    logger.error("Error fetching user by email from user service:", {
       error: error.message,
-      email
+      email,
     });
     return null;
   }
