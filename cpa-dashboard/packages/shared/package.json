@@ -1,0 +1,17 @@
+{
+  "name": "@cpa/shared",
+  "version": "1.0.0",
+  "description": "Shared utilities and middleware for CPA Dashboard services",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "echo 'Building shared package...'"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "joi": "^17.12.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

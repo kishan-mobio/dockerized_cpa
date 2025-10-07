@@ -1,0 +1,158 @@
+/* Drawer styles */
+.drawer .ant-drawer-header {
+  border-bottom: none;
+  padding: 24px 24px 0 24px;
+}
+
+.drawer .ant-drawer-body {
+  padding: 0 24px 24px 24px;
+}
+
+.drawer .ant-drawer-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Form styling */
+.drawer .ant-form-item-label > label {
+  font-weight: 500;
+  color: #374151;
+}
+
+.drawer .ant-input,
+.drawer .ant-select-selector {
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.drawer .ant-input:focus,
+.drawer .ant-select-focused .ant-select-selector {
+  border-color: #ff6b4a;
+  box-shadow: 0 0 0 2px rgba(255, 107, 74, 0.1);
+}
+
+.drawer .ant-input:hover,
+.drawer .ant-select:hover .ant-select-selector {
+  border-color: #ff6b4a;
+}
+
+/* Connect button styling */
+.connectButton {
+  width: 100% !important;
+  height: 40px !important;
+  background: #ff6b4a !important;
+  border-color: #ff6b4a !important;
+  color: white !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  transition: all 0.2s ease !important;
+}
+
+.connectButton:hover {
+  background: #d95f43 !important;
+  border-color: #d95f43 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 107, 74, 0.2);
+}
+
+.connectButton:disabled {
+  background: #d1d5db !important;
+  border-color: #d1d5db !important;
+  color: #9ca3af !important;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Form field spacing */
+.drawer .ant-form-item {
+  margin-bottom: 20px;
+}
+
+.drawer .ant-form-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Select dropdown styling */
+.drawer .ant-select {
+  width: 100%;
+}
+
+.drawer .ant-select-selector {
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+/* Input styling */
+.drawer .ant-input {
+  height: 40px;
+  padding: 8px 12px;
+}
+
+.drawer .ant-input-password {
+  height: 40px;
+}
+
+.drawer .ant-input-password .ant-input {
+  height: 100%;
+  border: none;
+  box-shadow: none;
+}
+
+.drawer .ant-input-password .ant-input:focus {
+  box-shadow: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .drawer .ant-drawer {
+    width: 100% !important;
+  }
+  
+  .drawer .ant-drawer-header,
+  .drawer .ant-drawer-body {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* Animation for form appearance */
+.drawer .ant-form-item {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sage-specific fields styling */
+.drawer .ant-form-item:nth-child(n+4) {
+  animation-delay: 0.1s;
+}
+
+.drawer .ant-form-item:nth-child(n+5) {
+  animation-delay: 0.2s;
+}
+
+.drawer .ant-form-item:nth-child(n+6) {
+  animation-delay: 0.3s;
+}
+
+.drawer .ant-form-item:nth-child(n+7) {
+  animation-delay: 0.4s;
+}
+
+.drawer .ant-form-item:nth-child(n+8) {
+  animation-delay: 0.5s;
+} 

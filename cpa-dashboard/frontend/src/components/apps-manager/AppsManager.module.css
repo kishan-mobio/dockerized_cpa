@@ -1,0 +1,274 @@
+/* Container Styling */
+.container {
+  width: 100%;
+  padding: 24px;
+  background-color: #f8f9fb;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.organizationSelect {
+  min-width: 200px;
+}
+
+/* Title Styling */
+.title {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+
+/* Subtitle Styling */
+.subtitle {
+  color: #6c757d !important;
+  font-size: 14px !important;
+  margin: 8px 0 0 0 !important;
+  display: block !important;
+}
+
+/* Custom Button */
+.customButton {
+  width: 171px !important;
+  max-width: 171px !important;
+  min-width: 171px !important;
+  height: 40px !important;
+  background-color: #ff6b4a !important;
+  border-color: #ff6b4a !important;
+  color: white !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+
+.customButton:hover {
+  background-color: #d95f43 !important;
+  border-color: #d95f43 !important;
+}
+
+/* Cards Container */
+.cardsContainer {
+  margin-top: 20px;
+  width: 100%;
+  height: auto;
+  gap: 16px;
+  border-radius: 8px;
+  padding: 24px;
+  background: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual App Card */
+.card {
+  width: 240px;
+  height: 240px;
+  border-radius: 9.28px;
+  border: 1.39px solid #e0e0e0;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Media - Icons Section */
+.cardMedia {
+  width: 100%;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border-bottom: 1.39px solid #e0e0e0;
+  padding: 16px 0;
+}
+
+.candleIcon {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.linkIcon {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Main Box Container */
+.mainBox {
+  display: flex;
+  flex: 1;
+  padding: 18px;
+  gap: 16px;
+}
+
+/* App Details Section */
+.appDetails {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+
+/* App Name Styling */
+.appName {
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block !important;
+  margin: 0 !important;
+  color: #1f2937 !important;
+}
+
+/* Update Text */
+.updateText {
+  color: #6c757d !important;
+  font-size: 12px !important;
+  text-align: left;
+  display: block !important;
+  margin: 0 !important;
+}
+
+/* Sync Text */
+.syncText {
+  color: #6c757d !important;
+  font-size: 12px !important;
+  text-align: left;
+  display: block !important;
+  margin: 0 !important;
+}
+
+/* Sync Container */
+.syncContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Toggle Switch Styling */
+.toggleSwitch {
+  width: 50px !important;
+  height: 22px !important;
+  transform: scale(1);
+}
+
+/* Sync Icon */
+.syncIcon {
+  font-size: 16px !important;
+  color: #6c757d !important;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.syncIcon:hover {
+  color: #1890ff !important;
+  background-color: #f0f0f0;
+}
+
+.syncing {
+  color: #1890ff !important;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Empty Container */
+.emptyContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 300px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .cardsContainer {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .customButton {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .cardsContainer {
+    padding: 12px;
+  }
+
+  .card {
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+  }
+} 

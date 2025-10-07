@@ -1,0 +1,10 @@
+{
+  "name": "@cpa/gateway",
+  "version": "1.0.0",
+  "description": "API Gateway for CPA Dashboard",
+  "scripts": {
+    "dev": "docker run --rm -p 3000:80 -v $(pwd)/nginx:/etc/nginx/conf.d nginx:alpine",
+    "build": "docker build -t cpa-gateway .",
+    "start": "docker run -p 3000:80 cpa-gateway"
+  }
+}

@@ -1,0 +1,130 @@
+import { validationRules } from "@/utils/methods/validation";
+
+export const tenantsData = [
+  {
+    id: 1,
+    name: "Acme Corporation",
+    domain: "acme.com",
+    status: "Active",
+    users: 25,
+    createdAt: "2024-01-15",
+    plan: "Enterprise",
+    email: "admin@acme.com",
+    phone: "+1-555-0123",
+    address: "123 Business St, New York, NY 10001",
+    description:
+      "Leading technology company specializing in innovative solutions.",
+  },
+  {
+    id: 2,
+    name: "TechStart Inc",
+    domain: "techstart.com",
+    status: "Active",
+    users: 12,
+    createdAt: "2024-02-20",
+    plan: "Professional",
+    email: "contact@techstart.com",
+    phone: "+1-555-0456",
+    address: "456 Tech Ave, San Francisco, CA 94105",
+    description: "Startup focused on cutting-edge technology development.",
+  },
+  {
+    id: 3,
+    name: "Global Solutions",
+    domain: "globalsol.com",
+    status: "Inactive",
+    users: 8,
+    createdAt: "2024-01-10",
+    plan: "Basic",
+    email: "info@globalsol.com",
+    phone: "+1-555-0789",
+    address: "789 Global Blvd, Chicago, IL 60601",
+    description: "International consulting firm providing business solutions.",
+  },
+];
+
+export const tenantFields = [
+  {
+    name: "name",
+    label: "Tenant Name",
+    type: "text",
+    placeholder: "Enter tenant name",
+    validation: { required: "Tenant name is required" },
+  },
+  {
+    name: "domain",
+    label: "Domain",
+    type: "text",
+    placeholder: "example.com",
+    validation: { required: "Domain is required" },
+  },
+  {
+    name: "email",
+    label: "Email",
+    type: "email",
+    placeholder: "info@example.com",
+    validation: validationRules.email,
+  },
+  {
+    name: "phone",
+    label: "Phone",
+    type: "tel",
+    placeholder: "+1-555-XXXX",
+    validation: { required: "Phone number is required" },
+  },
+  {
+    name: "status",
+    label: "Status",
+    type: "select",
+    options: [
+      { label: "Active", value: "Active" },
+      { label: "Inactive", value: "Inactive" },
+    ],
+    validation: { required: "Status is required" },
+  },
+  {
+    name: "users",
+    label: "Number of Users",
+    type: "number",
+    placeholder: "Enter number of users",
+    validation: { required: "User count is required", min: 1 },
+  },
+  {
+    name: "plan",
+    label: "Plan",
+    type: "select",
+    options: [
+      { label: "Basic", value: "Basic" },
+      { label: "Professional", value: "Professional" },
+      { label: "Enterprise", value: "Enterprise" },
+    ],
+    validation: { required: "Plan is required" },
+  },
+  {
+    name: "address",
+    label: "Address",
+    type: "textarea",
+    placeholder: "Enter address",
+    colSpan: 2,
+    validation: { required: "Address is required" },
+  },
+  {
+    name: "description",
+    label: "Description",
+    type: "textarea",
+    colSpan: 2,
+    placeholder: "Enter tenant description (optional)",
+  },
+];
+
+export const initialValues = {
+  name: "",
+  domain: "",
+  email: "",
+  phone: "",
+  status: "Active",
+  users: "",
+  plan: "Basic",
+  address: "",
+  description: "",
+};

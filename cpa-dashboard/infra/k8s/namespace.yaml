@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cpa-dashboard
+  labels:
+    name: cpa-dashboard
+
+---
+# infra/k8s/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cpa-config
+  namespace: cpa-dashboard
+data:
+  NODE_ENV: "production"
+  MONGODB_URI: "mongodb://mongodb-service:27017"
+  REDIS_URL: "redis://redis-service:6379"
+
+---
+# infra/k8s/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cpa-secrets
+  namespace: cpa-dashboard
+type: Opaque
+stringData:
+  JWT_SECRET: "your-
