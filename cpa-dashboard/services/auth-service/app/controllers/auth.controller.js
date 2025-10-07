@@ -173,7 +173,6 @@ import { getUserByEmail } from "../services/user.service.js";
 
 export const login = async (req, res) => {
   try {
-    console.log("in");
     const validationError = checkValidation(req, res);
     if (validationError) return validationError;
 
@@ -189,7 +188,6 @@ export const login = async (req, res) => {
         }`
       );
     } else {
-      console.log("user not found");
       logger.warn(`User not found in user service for email: ${userEmail}`);
     }
 
@@ -204,14 +202,7 @@ export const login = async (req, res) => {
     };
 
     const result = await loginService(loginData);
-    // console.log(result);
-
-    // Handle cookies for successful login
-    // if (result.success && result.data?.tokens) {
-    //   setAccessTokenCookie(res, result.data.tokens.access_token);
-    //   setRefreshTokenCookie(res, result.data.tokens.refresh_token);
-    // }
-
+  
     return handleServiceResponse(res, result);
   } catch (error) {
     logger.error(

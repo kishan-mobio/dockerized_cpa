@@ -46,9 +46,7 @@ const parseTimeToMs = (timeString) => {
  */
 export const createAccessToken = async (userData, expiresIn = '15m') => {
   try {
-    console.log('userData', userData);
     const token = generateAccessToken(userData, expiresIn);
-    console.log('token', token);
     logger.info(TOKEN_LOG_ACTIONS.ACCESS_TOKEN_CREATED, { 
       userId: userData.userId 
     });
@@ -66,12 +64,9 @@ export const createAccessToken = async (userData, expiresIn = '15m') => {
  */
 export const createRefreshToken = async (userData, expiresIn = '7d') => {
   try {
-    console.log('userData', userData);
     const token = generateRefreshToken(userData, expiresIn);
-    console.log('token', token);
     const expirationMs = parseTimeToMs(expiresIn);
     const expiresAt = new Date(Date.now() + expirationMs);
-    console.log('expiresAt', expiresAt);
 
     // Store refresh token in database
     await tokenRepository.create({

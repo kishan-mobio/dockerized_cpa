@@ -31,8 +31,6 @@ export default function LoginPage() {
   const { loading } = useSelector((state) => state.auth);
 
   const handleLogin = async () => {
-    console.log("Login credentials:", formData);
-
     try {
       const user = await dispatch(
         login({

@@ -316,7 +316,6 @@ export const loginService = async (loginData) => {
         AUTH_MESSAGES.ACCOUNT_INACTIVE
       );
     }
-    console.log(user);
     // Validate password
     const isPasswordValid = await validatePassword(
       password,
@@ -332,7 +331,6 @@ export const loginService = async (loginData) => {
     }
 
  
-    console.log("before token generation");
     // Generate tokens
     const accessToken = await createAccessToken({
       userId: user.id,
@@ -347,7 +345,6 @@ export const loginService = async (loginData) => {
       roles: user.roles || [],
       tenant_id: user.tenant_id,
     });
-    console.log(user);
     // Update last login
     await authRepository.updateLastLogin(user.id);
 
@@ -355,8 +352,6 @@ export const loginService = async (loginData) => {
       userId: user.id,
       email: user.email,
     });
-    console.log("after token generation 34");
-    // const { password: _, ...userWithoutPassword } = user.toJSON();
 
     return createServiceResponse(
       true,
